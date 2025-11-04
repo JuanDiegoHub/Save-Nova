@@ -1,17 +1,24 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.contrib.auth import authenticate,login
+from .forms import LoginForm
 
-# Create your views here.
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
-
-def login_view(request):
+def user_login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('login')  # Por ahora redirige al mismo login
+            cd = form.cleaned_data
+            user = authenticate(request,
+                                username=cd['username'],
+                                password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request,user)
+                    return HttpResponse('Autentificacíon Satisfactoria')
+                else:
+                    return HttpResponse('Autentificacíon Fallida')
+            else:
+                return HttpResponse('Usuario invalido')
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     return render(request, 'usuarios/login.html', {'form': form})

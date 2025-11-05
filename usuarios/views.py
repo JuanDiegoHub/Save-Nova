@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login, logout
+from .forms import LoginForm
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 
 def user_login(request):
@@ -13,12 +17,18 @@ def user_login(request):
                                 password=cd['contraseña'])
             if user is not None:
                 if user.is_active:
-                    login(request,user)
-                    return HttpResponse('Autentificacíon Satisfactoria')
+                    login(request, user)
+                    return redirect('menu_principal')
                 else:
-                    return HttpResponse('Autentificacíon Fallida')
+                    return render(request, 'usuarios/login.html', {'form': form, 'error': 'Cuenta inactiva'})
             else:
-                return HttpResponse('Usuario invalido')
+                return render(request, 'usuarios/login.html', {'form': form, 'error': 'Usuario o contraseña incorrectos'})
     else:
         form = LoginForm()
     return render(request, 'usuarios/login.html', {'form': form})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

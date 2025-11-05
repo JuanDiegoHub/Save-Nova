@@ -4,4 +4,5 @@ from . import views  # asegúrate de importar desde el punto actual (.)
 
 urlpatterns = [
     path('',views.user_login, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]

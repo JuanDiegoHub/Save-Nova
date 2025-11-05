@@ -11,7 +11,8 @@
 		<input type="checkbox" id="chk" aria-hidden="true">
 
 			<div class="signup">
-				<form>
+				<form autocomplete="off" method="POST" action="">
+					{% csrf_token %}
 					<label for="chk" aria-hidden="true">Registro</label>
 					<input type="text" name="txt" placeholder="User name" required="">
 					<input type="email" name="email" placeholder="Email" required="">
@@ -22,7 +23,8 @@
 			</div>
 
 			<div class="login">
-				<form autocomplete="off">
+				<form autocomplete="off" method="POST" action="">
+					{% csrf_token %}
 					<label for="chk" aria-hidden="true">Login</label>
 					<input type="texto" name="usuario" placeholder="Username" class="login__input" required="">
 					<input type="password" name="contraseña" placeholder="Contraseña" class="login__input" required="">

@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<h1>Pagar deuda total de {{ cliente.nombre }}</h1>
+
+<p>Deuda total: {{ cliente.deuda }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar pago total</button>
+</form>
+
+<a href="{% url 'detalle_cliente' cliente.id %}">Volver al detalle</a>
+{% endblock %}

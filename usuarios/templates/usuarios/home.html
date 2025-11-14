@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Bienvenido al sistema de clientes</h1>
+
+<a href="{% url 'lista_clientes' %}">Ver clientes</a><br>
+<a href="{% url 'agregar_cliente' %}">Agregar cliente</a>
+{% endblock %}

@@ -1,7 +1,23 @@
 from django import forms
+from .models import Cliente, Producto, Movimientos, PagoRecibido
 
-class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'placerholder': 'Usuario',
-                                                             'class': 'login__input'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placerholder': 'Contraseña',
-                                                                 'class': 'login__input'}))
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = ['nombre', 'telefono', 'email']
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'descripcion', 'precio', 'cantidad']
+
+class PagoRecibidoForm(forms.ModelForm):
+    class Meta:
+        model = PagoRecibido
+        fields = ['cliente', 'monto', 'metodo', 'referencia']
+
+
+class MovimientosForm(forms.ModelForm):
+    class Meta:
+        model = Movimientos
+        fields = ['cliente', 'monto', 'fecha_vencimiento', 'descripcion']

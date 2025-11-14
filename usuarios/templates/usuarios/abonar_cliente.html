@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<h1>Abonar deuda de {{ cliente.nombre }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Registrar abono</button>
+</form>
+
+<a href="{% url 'detalle_cliente' cliente.id %}">Volver al detalle</a>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<h1>Lista de clientes</h1>
+
+<a href="{% url 'agregar_cliente' %}">Agregar nuevo cliente</a>
+<ul>
+    {% for cliente in clientes %}
+        <li>
+            <a href="{% url 'detalle_cliente' cliente.id %}">{{ cliente.nombre }}</a>
+            - Deuda: {{ cliente.deuda }} | Abonado: {{ cliente.abonado }}
+        </li>
+    {% empty %}
+        <li>No hay clientes registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

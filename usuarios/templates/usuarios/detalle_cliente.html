@@ -1,0 +1,85 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<h1>Detalle de {{ cliente.nombre }}</h1>
+
+<h2>Información del Cliente</h2>
+<ul>
+    <li><strong>Teléfono:</strong> {{ cliente.telefono }}</li>
+    <li><strong>Email:</strong> {{ cliente.email }}</li>
+    <li><strong>Deuda actual:</strong> ${{ cliente.deuda }}</li>
+    <li><strong>Total abonado:</strong> ${{ cliente.abonado }}</li>
+</ul>
+
+<h2>Productos</h2>
+{% if productos %}
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.descripcion }}</td>
+                <td>${{ producto.precio }}</td>
+                <td>{{ producto.cantidad }}</td>
+                <td>${{ producto.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Este cliente no tiene productos registrados.</p>
+{% endif %}
+
+<a href="{% url 'agregar_producto' cliente.id %}">Agregar Producto</a>
+
+<h2>Abonos realizados</h2>
+{% if abonos %}
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Monto</th>
+                <th>Fecha de pago</th>
+                <th>Método</th>
+                <th>Referencia</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for abono in abonos %}
+            <tr>
+                <td>${{ abono.monto }}</td>
+                <td>{{ abono.fecha_pago }}</td>
+                <td>{{ abono.metodo }}</td>
+                <td>{{ abono.referencia }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay pagos registrados para este cliente.</p>
+{% endif %}
+
+<h2>Acciones</h2>
+<form action="{% url 'abonar_deuda' cliente.id %}" method="post" style="margin-bottom:10px;">
+    {% csrf_token %}
+    <label>Abonar monto parcial:</label>
+    <input type="number" name="monto" step="0.01" required>
+    <button type="submit">Abonar</button>
+</form>
+
+<form action="{% url 'pagar_deuda_total' cliente.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Pagar Deuda Total (${{ cliente.deuda }})</button>
+</form>
+
+<a href="{% url 'lista_clientes' %}">Volver a la lista de clientes</a>
+
+{% endblock %}

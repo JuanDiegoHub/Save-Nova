@@ -14,11 +14,12 @@
 				<form autocomplete="off" method="POST" action="">
 					{% csrf_token %}
 					<label for="chk" aria-hidden="true">Registro</label>
-					<input type="text" name="txt" placeholder="User name" required="">
+					<input type="text" name="usuario" placeholder="User name" required="">
 					<input type="email" name="email" placeholder="Email" required="">
           			<input type="number" name="Telefono" placeholder="Telefono" required="">
 					<input type="password" name="contraseña" placeholder="Contraseña" required="">
-					<button>Registrate</button>
+					<button name="btn_registro">Registrate</button>
+
 				</form>
 			</div>
 
@@ -28,7 +29,7 @@
 					<label for="chk" aria-hidden="true">Login</label>
 					<input type="texto" name="usuario" placeholder="Username" class="login__input" required="">
 					<input type="password" name="contraseña" placeholder="Contraseña" class="login__input" required="">
-					<button>Accede</button>
+					<button name="btn_login">Accede</button>
 				</form>
 			</div>
 	</div>

@@ -1,8 +1,6 @@
 from django.urls import path
-from . import views  # asegúrate de importar desde el punto actual (.)
-
+from .views import login_registro_view
 
 urlpatterns = [
-    path('',views.user_login, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('', login_registro_view, name='login'),
 ]

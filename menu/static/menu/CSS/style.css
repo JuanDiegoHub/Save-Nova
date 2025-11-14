@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f6f9;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.dashboard-nav {
+    width: 260px;
+    background: #1e1f29;
+    color: #fff;
+    transition: 0.3s;
+    overflow-y: auto;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+}
+
+.dashboard-nav::-webkit-scrollbar {
+    width: 7px;
+}
+
+.dashboard-nav::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    font-size: 22px;
+    background: #15161d;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.brand-logo i {
+    margin-right: 12px;
+}
+
+
+.dashboard-nav-list {
+    padding: 10px 0;
+}
+
+.dashboard-nav-item {
+    padding: 14px 22px;
+    display: block;
+    font-size: 17px;
+    transition: 0.2s;
+}
+
+.dashboard-nav-item i {
+    margin-right: 10px;
+}
+
+.dashboard-nav-item:hover {
+    background: #2b2d3a;
+    cursor: pointer;
+}
+
+
+.dashboard-nav-dropdown {
+    width: 100%;
+}
+
+.dashboard-nav-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-nav-dropdown-menu {
+    display: none;
+    background: #2b2d3a;
+}
+
+.dashboard-nav-dropdown-item {
+    padding: 12px 40px;
+    display: block;
+    font-size: 15px;
+    border-left: 3px solid transparent;
+    transition: 0.2s;
+}
+
+.dashboard-nav-dropdown-item:hover {
+    background: #353745;
+    border-left: 3px solid #4b79ff;
+}
+
+/* Divider */
+.nav-item-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 10px 0;
+}
+
+.dashboard-app {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-toolbar {
+    height: 60px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+
+.menu-toggle {
+    font-size: 24px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.dashboard-content {
+    padding: 30px;
+}
+
+.container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+h1 {
+    margin: 0 0 15px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-nav {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100%;
+        z-index: 999;
+    }
+
+    .dashboard-nav.active {
+        left: 0;
+    }
+
+    .dashboard-app {
+        margin-left: 0;
+    }
+}

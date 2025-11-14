@@ -52,12 +52,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'NOVA.urls'
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/templates/usuarios/menu'],
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +72,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+# --- STATIC FILES CONFIG ---
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'menu' / 'static',
 ]
 
 WSGI_APPLICATION = 'NOVA.wsgi.application'
@@ -117,7 +129,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-import os
 STATIC_URL = 'static/'
 LOGIN_URL = '/'           # si tu login está en la raíz
 LOGIN_REDIRECT_URL = 'menu'  # url por defecto tras login (opcional)

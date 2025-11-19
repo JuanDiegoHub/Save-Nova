@@ -1,0 +1,20 @@
+{% extends 'menu/menu.html' %}
+
+
+{% block content %}
+<div class='container'>
+    <div class='card'>
+        <div class='card-header'>
+            <h1>Crear Cliente</h1>
+        </div>
+        <div class='card-body'>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

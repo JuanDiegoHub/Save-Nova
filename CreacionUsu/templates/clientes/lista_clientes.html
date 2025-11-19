@@ -1,46 +1,67 @@
 {% extends 'menu/menu.html' %}
+{% load static %}
 
 {% block content %}
-<div class='container'>
-    <div class='card'>
-        <div class='card-header'><h1>Lista de Clientes</h1></div>
 
-        <div class='card-body'>
-            <a href="{% url 'crear_cliente' %}" class="btn btn-primary">➕ Crear Cliente</a>
-            <br><br>
+<!-- Vincular el CSS -->
+<link rel="stylesheet" href="{% static 'CreacionUsu/css/style.css' %}">
 
-            <table class="table">
+<div class="cliente-container">
+    <div class="cliente-card">
+        <div class="cliente-card-header">
+            <h1>Lista de Clientes</h1>
+        </div>
+
+        <div class="cliente-card-body">
+
+            <a href="{% url 'crear_cliente' %}" class="btn-primary">
+                <i class="fas fa-user-plus"></i> Crear Cliente
+            </a>
+
+            <table class="cliente-table">
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Cédula</th>
                         <th>Teléfono</th>
                         <th>Dirección</th>
                         <th>Correo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
+
                 <tbody>
                 {% for c in clientes %}
                     <tr>
                         <td>{{ c.nombre }}</td>
-                        <td>{{ c.cedula }}</td>
                         <td>{{ c.telefono }}</td>
                         <td>{{ c.direccion }}</td>
                         <td>{{ c.correo }}</td>
-                        <td>
-                            <a href="{% url 'editar_cliente' c.id %}">✏</a> |
-                            <a href="{% url 'eliminar_cliente' c.id %}" onclick="return confirm('¿Eliminar cliente?')">🗑</a>
+
+                        <td class="acciones">
+                            <a href="{% url 'editar_cliente' c.id %}" class="icon-btn edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+
+                            <a href="{% url 'eliminar_cliente' c.id %}"
+                               class="icon-btn delete"
+                               onclick="return confirm('¿Deseas eliminar el cliente?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
+
                 {% empty %}
                     <tr>
-                        <td colspan="6">No hay clientes registrados.</td>
+                        <td colspan="6" class="no-clientes">
+                            No hay clientes registrados.
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>
+
 {% endblock %}

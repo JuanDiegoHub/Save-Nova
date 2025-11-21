@@ -1,0 +1,40 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'CreacionUsu/css/style.css' %}">
+
+<div class="cliente-container">
+    <div class="cliente-card">
+        <div class="cliente-card-header">
+            <h1>Crear Cliente</h1>
+        </div>
+
+        <div class="cliente-card-body">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_nombre">Nombre</label>
+                    {{ form.nombre }}
+                </div> 
+                <div class="form-group">
+                    <label for="id_telefono">Teléfono</label>
+                    {{ form.telefono }}
+                </div>
+                <div class="form-group">
+                    <label for="id_direccion">Dirección</label>
+                    {{ form.direccion }}
+                </div>
+                <div class="form-group">
+                    <label for="id_correo">Correo</label>
+                    {{ form.correo }}
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-save"></i> Guardar Cliente
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

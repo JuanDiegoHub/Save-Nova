@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Usuario
+from django.contrib.auth.hashers import make_password, check_password
+
 
 def login_registro_view(request):
 
@@ -14,8 +16,9 @@ def login_registro_view(request):
             usuario=usuario,
             correo=correo,
             telefono=telefono,
-            contraseña=contraseña
-        )
+            contraseña=make_password(contraseña)
+        )  
+
 
         return redirect('login')  # vuelve al login
 
@@ -26,8 +29,16 @@ def login_registro_view(request):
 
         # validar usuario
         try:
-            user = Usuario.objects.get(usuario=usuario, contraseña=contraseña)
-            return redirect('menu')  # si el login es exitoso
+            user = Usuario.objects.get(usuario=usuario)
+
+            if check_password(contraseña, user.contraseña):
+        # contraseña correcta
+                return redirect('menu')
+            else:
+                return render(request, "usuarios/login.html", {
+                    "error_login": "Usuario o contraseña incorrectos."
+                })
+
         except Usuario.DoesNotExist:
             return render(request, "usuarios/login.html", {
                 "error_login": "Usuario o contraseña incorrectos."

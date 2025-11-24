@@ -1,0 +1,20 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+{% block title %}Cambiar teléfono — Nova{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'config/CSS/config.css' %}">
+<div class="card">
+    <div class="card-header"><h2>Cambiar teléfono</h2></div>
+    <div class="card-body">
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="post">{% csrf_token %}
+            <label>Nuevo teléfono</label>
+            <input name="telefono" value="{{ usuario.telefono }}" required>
+            <button class="btn">Guardar</button>
+        </form>
+        <a href="{% url 'config_dashboard' %}" class="link-volver">
+            ← Volver
+        </a>
+    </div>
+</div>
+{% endblock %}

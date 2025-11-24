@@ -1,0 +1,39 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+{% block title %}Configuración — Nova{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'config/CSS/config.css' %}">
+
+<div class="config-container">
+
+    <h2 class="config-title">Configuración</h2>
+
+    <p class="welcome-user">
+        Bienvenido, <b>{{ usuario.usuario }}</b>
+    </p>
+
+    <ul class="config-links">
+        <li>
+            <a href="{% url 'cambiar_usuario' %}">
+                <i class="fa-solid fa-user-pen"></i> Cambiar usuario
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'cambiar_correo' %}">
+                <i class="fa-solid fa-envelope"></i> Cambiar correo
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'cambiar_telefono' %}">
+                <i class="fa-solid fa-phone"></i> Cambiar teléfono
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'cambiar_contraseña' %}">
+                <i class="fa-solid fa-key"></i> Cambiar contraseña
+            </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+

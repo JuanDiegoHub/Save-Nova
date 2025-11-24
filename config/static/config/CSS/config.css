@@ -1,0 +1,238 @@
+/* ============================
+   ESTILOS GENERALES DE CONFIG
+   ============================ */
+
+body {
+    background: #f5f7fa;
+    font-family: 'Jost', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.config-container {
+    background: white;
+    padding: 30px;
+    margin: 20px auto;
+    width: 85%;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* Título */
+.config-title {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    color: #1d457c;
+    margin-bottom: 25px;
+}
+
+/* Texto de bienvenida */
+.welcome-user {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.welcome-user b {
+    color: #1d457c;
+}
+
+/* ===================================
+   BOTONES DE CONFIGURACIÓN
+   =================================== */
+
+.config-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1d457c;
+    color: white !important;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-weight: 500;
+    transition: 0.2s ease-in-out;
+}
+
+.config-links a:hover {
+    background: #16365f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 69, 124, 0.3);
+}
+
+/* Iconos */
+.config-links a i {
+    font-size: 18px;
+}
+
+/* Espaciado entre botones */
+.config-links li {
+    list-style: none;
+    margin-bottom: 12px;
+}
+
+/* =============================
+   ALERTAS DE ÉXITO Y ERROR
+   ============================= */
+
+.alert {
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.alert-exito {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+
+
+/* ============================
+   CONFIG — ESTILO NOVA
+============================ */
+body {
+    font-family: 'Jost', sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Contenedores */
+.config-container {
+    width: 95%;
+    max-width: 600px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+/* Títulos */
+h1, h2, h3 {
+    text-align: center;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+/* ============================
+   LISTA DEL DASHBOARD CONFIG
+============================ */
+.config-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.config-item {
+    display: block;
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: left;
+    transition: 0.2s ease-in-out;
+    color: #333;
+}
+
+.config-item:hover {
+    background: #f3f0ff; /* Morado suave NOVA */
+    border-color: #29599d;
+}
+
+/* ============================
+         FORMULARIOS
+============================ */
+label {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    margin-bottom: 18px;
+    transition: all 0.2s ease-in-out;
+}
+
+input:focus {
+    border-color: #29599d;
+    box-shadow: 0 0 4px #1d457c;
+    outline: none;
+}
+
+/* ============================
+          BOTONES
+============================ */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-guardar {
+    background: #1d457c;
+    color: white;
+}
+
+.btn-guardar:hover {
+    background: #1d457c;
+}
+
+.btn-volver {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.btn-volver:hover {
+    background: #d1d5db;
+}
+
+/* ============================
+       ENLACES
+============================ */
+a {
+    text-decoration: none;
+    color: #1d457c;
+    font-weight: 500;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+.link-volver {
+    margin-top: 15px;
+    display: inline-block;
+    text-decoration: none;
+    color: #1d457c;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.link-volver:hover {
+    opacity: 0.7;
+}

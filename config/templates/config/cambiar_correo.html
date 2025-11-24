@@ -1,0 +1,19 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+{% block title %}Cambiar Correo — Nova{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'config/CSS/config.css' %}">
+<div class="card">
+    <div class="card-header"><h2>Cambiar correo</h2></div>
+    <div class="card-body">
+        <form method="post">{% csrf_token %}
+            <label>Nuevo correo</label>
+            <input name="correo" type="email" value="{{ usuario.correo }}" required>
+            <button class="btn">Guardar</button>
+        </form>
+        <a href="{% url 'config_dashboard' %}" class="link-volver">
+            ← Volver
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -3,6 +3,7 @@ from .models import Usuario
 from django.contrib.auth.hashers import make_password, check_password
 
 
+
 def login_registro_view(request):
 
     # ----- SI SE ENVÍA EL FORMULARIO DE REGISTRO -----
@@ -23,25 +24,29 @@ def login_registro_view(request):
         return redirect('login')  # vuelve al login
 
     # ----- SI SE ENVÍA EL FORMULARIO DE LOGIN -----
+
     if request.method == "POST" and "btn_login" in request.POST:
-        usuario = request.POST.get("usuario")
-        contraseña = request.POST.get("contraseña")
+            usuario = request.POST.get("usuario")
+            contraseña = request.POST.get("contraseña")
 
-        # validar usuario
-        try:
-            user = Usuario.objects.get(usuario=usuario)
+            try:
+                user = Usuario.objects.get(usuario=usuario)
 
-            if check_password(contraseña, user.contraseña):
-        # contraseña correcta
-                return redirect('menu')
-            else:
+                if check_password(contraseña, user.contraseña):
+                    
+                    request.session["usuario_id"] = user.id
+                    request.session["usuario_nombre"] = user.usuario
+
+                    return redirect('menu')
+
+                else:
+                    return render(request, "usuarios/login.html", {
+                        "error_login": "Usuario o contraseña incorrectos."
+                    })
+
+            except Usuario.DoesNotExist:
                 return render(request, "usuarios/login.html", {
                     "error_login": "Usuario o contraseña incorrectos."
                 })
-
-        except Usuario.DoesNotExist:
-            return render(request, "usuarios/login.html", {
-                "error_login": "Usuario o contraseña incorrectos."
-            })
 
     return render(request, "usuarios/login.html")

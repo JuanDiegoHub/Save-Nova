@@ -1,0 +1,30 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+{% block title %}Cambiar Correo — Nova{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'config/CSS/config.css' %}">
+<div class="card">
+    <div class="card-header"><h2>Cambiar contraseña</h2></div>
+    <div class="card-body">
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="post">{% csrf_token %}
+            <label>Contraseña actual</label>
+            <input name="actual" type="password" required>
+
+
+            <label>Nueva contraseña</label>
+            <input name="nueva" type="password" required>
+
+
+            <label>Confirmar contraseña</label>
+            <input name="confirmar" type="password" required>
+
+
+            <button class="btn">Guardar</button>
+        </form>
+        <a href="{% url 'config_dashboard' %}" class="link-volver">
+            ← Volver
+        </a>
+    </div>
+</div>
+{% endblock %}

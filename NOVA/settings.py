@@ -40,8 +40,12 @@ INSTALLED_APPS = [
     'usuarios',
     'menu',
     'CreacionUsu',
-    'config'
+    'config',
 ]
+AUTHENTICATION_BACKENDS = [
+    'usuarios.backends.UsuarioBackend',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,7 +62,6 @@ ROOT_URLCONF = 'NOVA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/templates/usuarios/menu'],
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {

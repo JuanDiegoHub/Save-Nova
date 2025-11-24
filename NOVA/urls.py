@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('usuarios.urls')),
     path('menu/', include('menu.urls')),
     path('clientes/', include('CreacionUsu.urls')),
+    path('config/', include('config.urls')),
 
 ]
 

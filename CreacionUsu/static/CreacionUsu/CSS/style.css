@@ -188,3 +188,76 @@
     color: white !important;
 }
 
+
+/* ============================
+   RESPONSIVE — VISTA CELULAR
+   ============================ */
+
+@media (max-width: 768px) {
+
+    /* OCULTAR HEADER DE LA TABLA */
+    .cliente-table thead {
+        display: none;
+    }
+
+    /* Cada fila se convierte en CARD */
+    .cliente-table tr {
+        display: block;
+        background: #ffffff;
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* Los TD se vuelven bloques */
+    .cliente-table td {
+        display: block;
+        padding: 6px 0;
+        border: none;
+    }
+
+    /* Nombre del cliente */
+    .cliente-table tr td:first-child {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #1d457c;
+        margin-bottom: 10px;
+    }
+
+    /* Teléfono */
+    .cliente-table tr td:nth-child(2)::before {
+        content: "Teléfono ";
+        font-weight: bold;
+        color: #1d457c;
+        margin-right: 5px;
+    }
+
+    /* Dirección */
+    .cliente-table tr td:nth-child(3)::before {
+        content: "Dirección ";
+        font-weight: bold;
+        color: #1d457c;
+        margin-right: 5px;
+    }
+
+    /* Correo */
+    .cliente-table tr td:nth-child(4)::before {
+        content: "Correo ";
+        font-weight: bold;
+        color: #1d457c;
+        margin-right: 5px;
+    }
+
+    /* ACCIONES */
+    .acciones {
+        margin-top: 12px;
+        text-align: right;
+    }
+
+    .icon-btn {
+        font-size: 1.1rem;
+        padding: 8px 10px;
+        margin-left: 8px;
+    }
+}

@@ -1,0 +1,72 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Pedido</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'pedido/CSS/pedido.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<div class="container">
+    <h2>Crear Pedido</h2>
+
+    <!-- Selección de cliente -->
+    <div class="card">
+        <label>Seleccione un cliente:</label>
+        <select id="clienteSelect" class="input">
+            <option value="">-- Seleccione --</option>
+            {% for c in clientes %}
+                <option value="{{ c.id_cliente }}">{{ c.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Formulario de productos -->
+    <div class="card" id="productosCard" style="display:none;">
+        <h3>Agregar productos</h3>
+
+        <div class="form-grid">
+            <input type="text" id="nombreProducto" class="input" placeholder="Nombre del producto">
+            <input type="number" id="cantidadProducto" class="input" placeholder="Cantidad" min="1">
+            <input type="number" id="precioProducto" class="input" placeholder="Precio" step="0.01" min="0">
+            <button class="btn" onclick="agregarProducto()">
+                <i class="fa fa-plus"></i> Agregar
+            </button>
+        </div>
+
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cant.</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="listaProductos"></tbody>
+        </table>
+
+        <h3>Total: $<span id="totalGeneral">0.00</span></h3>
+
+        <button class="btn-success" onclick="guardarPedido()">
+            <i class="fa fa-save"></i> Guardar Pedido
+        </button>
+    </div>
+
+</div>
+</body>
+</html>
+<script>
+    const URL_GUARDAR = "{% url 'guardar_pedido' %}";
+</script>
+<script src="{% static 'pedido/JS/pedido.js' %}"></script>
+{% endblock %}

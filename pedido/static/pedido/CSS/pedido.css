@@ -1,0 +1,147 @@
+/* =============================
+   ESTILOS GENERALES
+============================= */
+
+body {
+    font-family: 'Jost', sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.input {
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+/* =============================
+   BOTONES
+============================= */
+
+.btn, .btn-success {
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+}
+
+.btn {
+    background: #007bff;
+}
+
+.btn-success {
+    background: #28a745;
+    margin-top: 20px;
+}
+
+/* =============================
+   TABLA
+============================= */
+
+.tabla {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.tabla th, .tabla td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.delete-btn {
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* =============================
+   GRID DEL FORMULARIO
+============================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* =============================
+   VERSIÓN MÓVIL
+============================= */
+
+@media (max-width: 650px) {
+
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .form-grid input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .btn {
+        grid-column: span 2;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Tabla más pequeña */
+    .tabla th, .tabla td {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    h2, h3 {
+        font-size: 18px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    /* Quitar overflow en mobile */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* =============================
+   EXTRA - Mejor soporte ultra móvil
+============================= */
+
+@media (max-width: 420px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        grid-column: span 1;
+    }
+
+    .tabla {
+        font-size: 12px;
+    }
+}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'menu',
     'CreacionUsu',
     'config',
+    'pedido',
 ]
 AUTHENTICATION_BACKENDS = [
     'usuarios.backends.UsuarioBackend',

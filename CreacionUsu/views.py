@@ -18,7 +18,7 @@ def crear_cliente(request):
     return render(request, 'clientes/crear_cliente.html', {'form': form})
 
 def editar_cliente(request, id):
-    cliente = get_object_or_404(Cliente, id=id)
+    cliente = get_object_or_404(Cliente, id_cliente=id)
 
     if request.method == 'POST':
         form = ClienteForm(request.POST, instance=cliente)
@@ -31,6 +31,6 @@ def editar_cliente(request, id):
     return render(request, 'clientes/editar_cliente.html', {'form': form})
 
 def eliminar_cliente(request, id):
-    cliente = get_object_or_404(Cliente, id=id)
+    cliente = get_object_or_404(Cliente, id_cliente=id)
     cliente.delete()
     return redirect('lista_clientes')

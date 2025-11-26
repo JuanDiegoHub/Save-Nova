@@ -5,35 +5,68 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Nova</title>
-	<link rel="stylesheet" type="text/css" href="{%static 'usuarios/CSS/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/CSS/style.css' %}">
+	<link rel="stylesheet" href="{% static 'usuarios/CSS/notificacion.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
+    <!-- Contenedor de notificaciones -->
+    <div id="toast-container"></div>
+    <script src="{% static 'usuarios/JS/notificacion.js' %}"></script>
 	<div class="main">  	
 		<input type="checkbox" id="chk" aria-hidden="true">
 
-			<div class="signup">
-				<form autocomplete="off" method="POST" action="">
-					{% csrf_token %}
-					<label for="chk" aria-hidden="true">Registro</label>
-					<input type="text" name="usuario" placeholder="User name" required="">
-					<input type="email" name="email" placeholder="Email" required="">
-          			<input type="number" name="Telefono" placeholder="Telefono" required="">
-					<input type="password" name="contraseña" placeholder="Contraseña" required="">
-					<button name="btn_registro">Registrate</button>
+		<!--  REGISTRO  -->
+		<div class="signup">
 
-				</form>
-			</div>
+			<form autocomplete="off" method="POST" action="">
+				{% csrf_token %}
+				<label for="chk" aria-hidden="true">Registro</label>
 
-			<div class="login">
-				<form autocomplete="off" method="POST" action="">
-					{% csrf_token %}
-					<label for="chk" aria-hidden="true">Login</label>
-					<input type="texto" name="usuario" placeholder="Username" class="login__input" required="">
-					<input type="password" name="contraseña" placeholder="Contraseña" class="login__input" required="">
-					<button name="btn_login">Accede</button>
-				</form>
-			</div>
+				<input type="text" name="usuario" placeholder="User name" required="">
+				<input type="email" name="email" placeholder="Email" required="">
+				<input type="number" name="Telefono" placeholder="Teléfono" required="">
+				<input type="password" name="contraseña" placeholder="Contraseña" required="">
+
+				<button name="btn_registro">Regístrate</button>
+			</form>
+
+		</div>
+
+        <!--  LOGIN  -->
+		<div class="login">
+			<form autocomplete="off" method="POST" action="">
+				{% csrf_token %}
+				<label for="chk" aria-hidden="true">Login</label>
+
+				<input type="text" name="usuario" placeholder="Username" class="login__input" required="">
+				<input type="password" name="contraseña" placeholder="Contraseña" class="login__input" required="">
+
+				<button name="btn_login">Accede</button>
+
+                {% if error_login %}
+                    <p style="color: red; margin-top: 10px;">{{ error_login }}</p>
+                {% endif %}
+			</form>
+		</div>
+
 	</div>
+
+    <!-- Inicializar toasts -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mensajes = JSON.parse(`[
+            {% for message in messages %}
+                {"texto": "{{ message }}", "tipo": "{{ message.tags }}"}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]`);
+
+        mostrarMensajesDjango(mensajes);
+    });
+	</script>
+
+
 </body>
 </html>

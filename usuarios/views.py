@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Usuario
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib import messages
 
 
 
@@ -13,15 +14,23 @@ def login_registro_view(request):
         telefono = request.POST.get("Telefono")
         contraseña = request.POST.get("contraseña")
 
+        if Usuario.objects.filter(usuario=usuario).exists():
+            messages.warning(request, "El nombre del usuario ya está registrado.")
+            return redirect('login')
+        
+        if Usuario.objects.filter(correo=correo).exists():
+            messages.warning(request, "El correo ya se encuentra registrado.")
+            return redirect('login')
+
+
         Usuario.objects.create(
             usuario=usuario,
             correo=correo,
             telefono=telefono,
             contraseña=make_password(contraseña)
         )  
-
-
-        return redirect('login')  # vuelve al login
+        messages.success(request,"Registro existoso.")
+        return redirect('login')
 
     # ----- SI SE ENVÍA EL FORMULARIO DE LOGIN -----
 

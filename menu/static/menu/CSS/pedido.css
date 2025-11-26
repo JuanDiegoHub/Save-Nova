@@ -1,0 +1,123 @@
+/* === CONTENEDOR GENERAL === */
+.titulo-pedidos {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1d3557;
+    margin-bottom: 25px;
+}
+
+/* === GRID DE 3 COLUMNAS === */
+.grid-pedidos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .grid-pedidos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-pedidos {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === TARJETAS DE PEDIDOS === */
+.pedido-card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+    transition: 0.3s ease;
+}
+
+.pedido-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* Cliente */
+.pedido-cliente {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1d3557;
+    margin-bottom: 8px;
+}
+
+/* Total */
+.pedido-total {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* === BOTONES === */
+.btn-abonar,
+.btn-pagar {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: 0.3s ease;
+}
+
+/* Botón Abonar */
+.btn-abonar {
+    background: #1d3557;
+}
+
+.btn-abonar:hover {
+    background: #274b7a;
+}
+
+/* Botón Pagar */
+.btn-pagar {
+    background: #2a9d8f;
+}
+
+.btn-pagar:hover {
+    background: #23867b;
+}
+
+/* === FORMULARIO DE ABONO === */
+#abonoForm {
+    margin-top: 10px;
+}
+
+#abonoForm input,
+.pedido-card form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Confirmar abono */
+.btn-confirmar-abono {
+    background: #457b9d;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-confirmar-abono:hover {
+    background: #35627a;
+}

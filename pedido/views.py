@@ -2,14 +2,14 @@
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 import json
 from decimal import Decimal
 
 from CreacionUsu.models import Cliente
 from .models import Pedido, DetallePedido
-
+from django.shortcuts import get_object_or_404, redirect
+from pedido.models import Pedido, MovimientoPago
 
 def crear_pedido(request):
     clientes = Cliente.objects.all().order_by("nombre")  
@@ -64,3 +64,41 @@ def guardar_pedido(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
+
+def abonar_pedido(request, id_pedido):
+    pedido = get_object_or_404(Pedido, id_pedido=id_pedido)
+    abono = Decimal(request.POST.get("abono", "0"))
+
+    MovimientoPago.objects.create(
+        pedido=pedido,
+        cliente=pedido.cliente,
+        monto=abono,
+        tipo="abono"
+    )
+
+    pedido.total -= abono
+    if pedido.total < 0:
+        pedido.total = 0
+    pedido.save()
+
+    
+    if pedido.total == 0:
+        pedido.delete()
+
+    return redirect("menu")
+
+def pagar_pedido(request, id_pedido):
+    pedido = get_object_or_404(Pedido, id_pedido=id_pedido)
+
+    MovimientoPago.objects.create(
+        pedido=pedido,
+        cliente=pedido.cliente,
+        monto=pedido.total,  # Decimal OK
+        tipo="pago_total"
+    )
+
+    pedido.delete()
+
+    return redirect("menu")
+

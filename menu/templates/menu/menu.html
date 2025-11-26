@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>{% block title %}Panel principal{% endblock %}</title>
+    <title>Pedidos Activos</title>
 
-    <link rel="stylesheet" href="{% static 'menu/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'menu/CSS/style.css' %}">
+    <link rel="stylesheet" href="{% static 'menu/CSS/pedido.css' %}">
     <link rel="shortcut" href="{% static 'menu/images/logo_nova.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -17,58 +17,68 @@
 <div class='dashboard'>
     <div class="dashboard-nav">
         <header>
-            <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-
-            <a href="#" class="brand-logo">
-                <span>NOVA</span>
-            </a>
+            <a href="#" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            <a href="#" class="brand-logo"><span>NOVA</span></a>
         </header>
 
         <nav class="dashboard-nav-list">
             <a href="{% url 'menu' %}" class="dashboard-nav-item"><i class="fas fa-home"></i> Inicio</a>
-            <a href="{% url 'lista_clientes' %}" class="dashboard-nav-item">
-                <i class="fas fa-users"></i> Clientes
-            </a>
-            
-            <a href="{% url 'crear_pedido'%}" class="dashboard-nav-item"><i class="fas fa-shopping-cart"></i> Pedido</a>
+            <a href="{% url 'lista_clientes' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> Clientes</a>
+            <a href="{% url 'crear_pedido' %}" class="dashboard-nav-item"><i class="fas fa-shopping-cart"></i> Pedido</a>
             <a href="{% url 'config_dashboard' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Configuracion</a>
             <a href="#" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Informe Mensual</a>
             <a href="#" class="dashboard-nav-item"><i class="fas fa-user"></i> Perfil</a>
-
             <div class="nav-item-divider"></div>
-
-            <a href="{% url 'login' %}" class="dashboard-nav-item">
-                <i class="fas fa-sign-out-alt"></i> Cerrar Sesion
-            </a>
+            <a href="{% url 'login' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Cerrar Sesion</a>
         </nav>
     </div>
 
     <div class='dashboard-app'>
         <header class='dashboard-toolbar'>
-            <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            <a href="#" class="menu-toggle"><i class="fas fa-bars"></i></a>
         </header>
 
         <div class='dashboard-content'>
             <div class='container'>
 
                 {% block content %}
-                <!-- CONTENIDO POR DEFECTO DEL MENU -->
-                <div class='card'>
-                    <div class='card-header'>
-                        <h1>Clientes Activos</h1>
-                    </div>
+                <h1 class="titulo-pedidos">Pedidos Activos</h1>
 
-                    <div class='card-body'>
-                        <p>Ningun cliente tiene cuentas activa</p>
+                <div class="grid-pedidos">
+                    {% for pedido in pedidos %}
+                    <div class="pedido-card" id="pedido-{{ pedido.id_pedido }}">
+                        <h2 class="pedido-cliente">{{ pedido.cliente.nombre }}</h2>
+                        <p class="pedido-total">Total: ${{ pedido.total }}</p>
+
+                        <button class="btn-abonar" onclick="mostrarAbono({{ pedido.id_pedido }})">
+                            <i class="fa-solid fa-coins"></i> Abonar
+                        </button>
+
+                        <button class="btn-pagar" onclick="pagarPedido({{ pedido.id_pedido }})">
+                            <i class="fa-solid fa-check"></i> Pagar
+                        </button>
+
+                        <!-- Formulario real a Django -->
+                        <form method="POST" action="{% url 'abonar_pedido' pedido.id_pedido %}" method="POST" 
+                            id="abonoForm-{{ pedido.id_pedido }}" style="display:none;">
+                            {% csrf_token %}
+                            <input type="number" name="abono" placeholder="Valor a abonar" min="1" required>
+                            <button type="submit" class="btn-confirmar-abono">Confirmar</button>
+                        </form>
+
                     </div>
-                </div>
+                    {% empty %}
+                    <p>No hay pedidos activos.</p>
+                    {% endfor %}
                 {% endblock %}
+                </div>
 
             </div>
         </div>
     </div>
 </div>
 
-<script src="{% static 'menu/js/menu.js' %}"></script>
+<script src="{% static 'menu/JS/menu.js' %}"></script>
+<script src="{% static 'menu/JS/pedidos.js' %}"></script>
 </body>
 </html>

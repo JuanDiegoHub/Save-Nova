@@ -436,3 +436,54 @@ h1, .h1 {
         left: 0;
     }
 }
+
+.busqueda-clientes {
+  display: flex;
+  justify-content: space-between; /* separa título y barra */
+  align-items: center;            /* los alinea verticalmente */
+  flex-wrap: wrap;                /* permite que se acomoden en móvil */
+  gap: 10px;                      /* espacio entre elementos */
+  margin-bottom: 20px;
+}
+
+
+.busqueda-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.busqueda-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 40px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+}
+
+.busqueda-boton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .busqueda-clientes {
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .busqueda-wrapper {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}

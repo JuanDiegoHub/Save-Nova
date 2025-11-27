@@ -5,11 +5,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from decimal import Decimal
-
 from CreacionUsu.models import Cliente
-from .models import Pedido, DetallePedido
+from .models import Pedido, DetallePedido, MovimientoPago
 from django.shortcuts import get_object_or_404, redirect
-from pedido.models import Pedido, MovimientoPago
+from django.utils.timezone import now
+
 
 def crear_pedido(request):
     clientes = Cliente.objects.all().order_by("nombre")  
@@ -84,7 +84,8 @@ def abonar_pedido(request, id_pedido):
 
     
     if pedido.total == 0:
-        pedido.delete()
+        pedido.estado= "Pagado"
+        pedido.save()
 
     return redirect("menu")
 
@@ -97,8 +98,9 @@ def pagar_pedido(request, id_pedido):
         monto=pedido.total,  # Decimal OK
         tipo="pago_total"
     )
-
-    pedido.delete()
+    pedido.total = 0
+    pedido.estado = "Pagado"
+    pedido.save()
 
     return redirect("menu")
 

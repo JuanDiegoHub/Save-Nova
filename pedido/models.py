@@ -23,6 +23,16 @@ class Pedido(models.Model):
     )
     fecha_pedido = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    estado= models.CharField(
+        max_length=20,
+        choices=[("Pendiente", "Pendiente"), ("Pagado", "Pagado")],
+        default="Pendiente"
+    )
+    def actualizar_estado(self):
+        pagos_total=sum(m.monto for m in self.movimientos.all())
+        if pagos_total >= self.total:
+            self.estado = "Pagado"
+            self.save()
 
     def __str__(self):
         return f"Pedido #{self.id_pedido} - {self.cliente.nombre}"
@@ -43,8 +53,15 @@ class MovimientoPago(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name="movimientos")
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
-    tipo = models.CharField(max_length=20)  # "abono" o "pago_total"
+    tipo = models.CharField(
+        max_length=20,
+        choices=[("abono", "Abono"), ("pago_total", "Pago Total")]
+    )
     fecha = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.pedido.actualizar_estado()
 
     def __str__(self):
         return f"{self.tipo} - {self.cliente.nombre} - {self.monto}"

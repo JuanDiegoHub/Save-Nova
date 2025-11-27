@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'CreacionUsu',
     'config',
     'pedido',
+    'reporte',
 ]
 AUTHENTICATION_BACKENDS = [
     'usuarios.backends.UsuarioBackend',

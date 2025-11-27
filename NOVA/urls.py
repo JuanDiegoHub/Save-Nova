@@ -25,6 +25,7 @@ urlpatterns = [
     path('clientes/', include('CreacionUsu.urls')),
     path('config/', include('config.urls')),
     path('pedidos/', include('pedido.urls')),
+    path('reporte/', include('reporte.urls')),
 
 ]
 

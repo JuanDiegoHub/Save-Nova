@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Mensual</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .pedido-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fefefe;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .pedido-header {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .pedido-info {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .pedido-info strong {
+            color: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 5px 0;
+        }
+
+        ul li {
+            padding: 4px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .estado-pagado {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .estado-pendiente {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte Mensual de Pedidos — {{ month }}/{{ year }}</h1>
+
+    {% for pedido in pedidos %}
+    <div class="pedido-card">
+        <div class="pedido-header">Pedido #{{ pedido.id_pedido }}</div>
+
+        <div class="pedido-info">
+            <strong>Cliente:</strong> {{ pedido.cliente.nombre }}
+        </div>
+
+        <div class="pedido-info">
+            <strong>Estado:</strong>
+            <span class="estado-{{ pedido.estado|lower }}">{{ pedido.estado }}</span>
+        </div>
+
+        <div class="pedido-info">
+            <strong>Productos:</strong>
+            <ul>
+                {% for detalle in pedido.detalles.all %}
+                <li>{{ detalle.nombre_producto }} (x{{ detalle.cantidad }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="pedido-info">
+            <strong>Movimientos:</strong>
+            <ul>
+                {% for mov in pedido.movimientos.all %}
+                <li>{{ mov.fecha|date:"d/m/Y H:i" }} — {{ mov.tipo }} — ${{ mov.monto }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,29 +1,25 @@
 {% extends 'menu/menu.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Informe Mensual</title>
-    <link rel="stylesheet" href="{% static 'reporte/CSS/reporte.css' %}">
-</head>
-<body>
-    <h1>Informe Mensual de Pedidos</h1>
 
-    <div class="meses-grid">
-        {% for mes in meses %}
-        <div class="mes-card {% if mes.bloqueado %}bloqueado{% endif %}">
-            <h2>{{ mes.nombre }} {{ mes.year }}</h2>
-            <p>{% if mes.bloqueado %}Disponible al finalizar el mes{% else %}Informe disponible{% endif %}</p>
-            <form method="get" action="{% url 'generar_reporte_pdf' %}">
-                <input type="hidden" name="month" value="{{ mes.numero }}">
-                <input type="hidden" name="year" value="{{ mes.year }}">
-                <button type="submit" {% if mes.bloqueado %}disabled{% endif %}>Generar Informe</button>
-            </form>
-        </div>
-        {% endfor %}
-    </div>
-{% endblock%}
-</body>
-</html>
+<h1>Informe de Pedidos</h1>
+
+<!-- ============================
+     BLOQUE NUEVO: RANGO DE FECHAS
+============================= -->
+<div class="rango-fechas-container">
+    <h2>Generar los informes por rango de fechas</h2>
+
+    <form method="get" action="{% url 'generar_reporte_pdf' %}" class="rango-form">
+        <label>Fecha Inicio:</label>
+        <input type="date" name="fecha_inicio" required>
+
+        <label>Fecha Fin:</label>
+        <input type="date" name="fecha_fin" required>
+
+        <button type="submit">Generar PDF</button>
+    </form>
+</div>
+
+{% endblock %}
+

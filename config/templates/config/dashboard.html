@@ -6,7 +6,7 @@
 
 <div class="config-container">
 
-    <h2 class="config-title">Configuración</h2>
+    <h2 class="config-title">Perfil</h2>
 
     <p class="welcome-user">
         Bienvenido, <b>{{ usuario.usuario }}</b>
@@ -14,20 +14,24 @@
 
     <ul class="config-links">
         <li>
+            <p><strong>Usuario:</strong> {{ usuario.usuario }}</p>
             <a href="{% url 'cambiar_usuario' %}">
                 <i class="fa-solid fa-user-pen"></i> Cambiar usuario
             </a>
         </li>
         <li>
+            <p><strong>Correo:</strong> {{ usuario.correo }}</p>
             <a href="{% url 'cambiar_correo' %}">
                 <i class="fa-solid fa-envelope"></i> Cambiar correo
             </a>
         </li>
         <li>
+            <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
             <a href="{% url 'cambiar_telefono' %}">
                 <i class="fa-solid fa-phone"></i> Cambiar teléfono
             </a>
         </li>
+        <br>
         <li>
             <a href="{% url 'cambiar_contraseña' %}">
                 <i class="fa-solid fa-key"></i> Cambiar contraseña
@@ -36,4 +40,3 @@
     </ul>
 </div>
 {% endblock %}
-

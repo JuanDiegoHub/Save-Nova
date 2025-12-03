@@ -4,19 +4,29 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from pedido.models import Pedido
 from django.utils.timezone import now
-import calendar
+import datetime
 def generar_reporte_pdf(request):
-    hoy = now()
-    # Si el usuario selecciona un mes, úsalo; si no, usa el actual
-    month = int(request.GET.get("month", hoy.month))
-    year = int(request.GET.get("year", hoy.year))
+    # Capturamos las fechas desde el formulario
+    fecha_inicio = request.GET.get("fecha_inicio")
+    fecha_fin = request.GET.get("fecha_fin")
 
-    pedidos = Pedido.objects.filter(
-        fecha_pedido__year=year,
-        fecha_pedido__month=month
-    ).prefetch_related("movimientos", "detalles")
+    pedidos = Pedido.objects.all()
 
-    context = {"pedidos": pedidos, "month": month, "year": year}
+    if fecha_inicio and fecha_fin:
+        # Convertimos a objetos datetime
+        fecha_inicio = datetime.datetime.strptime(fecha_inicio, "%Y-%m-%d")
+        fecha_fin = datetime.datetime.strptime(fecha_fin, "%Y-%m-%d")
+
+        # Filtramos pedidos entre esas fechas
+        pedidos = Pedido.objects.filter(
+            fecha_pedido__range=[fecha_inicio, fecha_fin]
+        ).prefetch_related("movimientos", "detalles")
+
+    context = {
+        "pedidos": pedidos,
+        "fecha_inicio": fecha_inicio,
+        "fecha_fin": fecha_fin
+    }
 
     # Renderizar HTML
     template = get_template("reporte/reporte_mensual.html")
@@ -24,7 +34,7 @@ def generar_reporte_pdf(request):
 
     # Exportar a PDF
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f"attachment; filename=reporte_{year}_{month}.pdf"
+    response["Content-Disposition"] = "attachment; filename=reporte.pdf"
     pisa.CreatePDF(html, dest=response)
 
     return response

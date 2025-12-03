@@ -7,18 +7,20 @@
 <!-- ============================
      BLOQUE NUEVO: RANGO DE FECHAS
 ============================= -->
+<link rel="stylesheet" href="{% static 'reporte/CSS/reporte.css' %}">
 <div class="rango-fechas-container">
     <h2>Generar los informes por rango de fechas</h2>
 
-    <form method="get" action="{% url 'generar_reporte_pdf' %}" class="rango-form">
-        <label>Fecha Inicio:</label>
-        <input type="date" name="fecha_inicio" required>
+    <form method="get" action="{% url 'generar_reporte_pdf' %}">
+        <label for="fecha_inicio">Desde:</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
 
-        <label>Fecha Fin:</label>
-        <input type="date" name="fecha_fin" required>
+        <label for="fecha_fin">Hasta:</label>
+        <input type="date" id="fecha_fin" name="fecha_fin" required>
 
         <button type="submit">Generar PDF</button>
-    </form>
+    </form> 
+
 </div>
 
 {% endblock %}

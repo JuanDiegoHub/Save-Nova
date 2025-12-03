@@ -2,41 +2,61 @@
 {% load static %}
 {% block title %}Configuración — Nova{% endblock %}
 {% block content %}
+
 <link rel="stylesheet" href="{% static 'config/CSS/config.css' %}">
 
 <div class="config-container">
 
-    <h2 class="config-title">Perfil</h2>
+    <div class="config-card">
+        
+        <h2 class="config-title">Perfil</h2>
 
-    <p class="welcome-user">
-        Bienvenido, <b>{{ usuario.usuario }}</b>
-    </p>
+        <p class="welcome-user">
+            Bienvenido, <strong>{{ usuario.usuario }}</strong>
+        </p>
 
-    <ul class="config-links">
-        <li>
-            <p><strong>Usuario:</strong> {{ usuario.usuario }}</p>
-            <a href="{% url 'cambiar_usuario' %}">
-                <i class="fa-solid fa-user-pen"></i> Cambiar usuario
-            </a>
-        </li>
-        <li>
-            <p><strong>Correo:</strong> {{ usuario.correo }}</p>
-            <a href="{% url 'cambiar_correo' %}">
-                <i class="fa-solid fa-envelope"></i> Cambiar correo
-            </a>
-        </li>
-        <li>
-            <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-            <a href="{% url 'cambiar_telefono' %}">
-                <i class="fa-solid fa-phone"></i> Cambiar teléfono
-            </a>
-        </li>
-        <br>
-        <li>
-            <a href="{% url 'cambiar_contraseña' %}">
-                <i class="fa-solid fa-key"></i> Cambiar contraseña
-            </a>
-        </li>
-    </ul>
+        <ul class="config-list">
+
+            <li class="config-item">
+                <div class="item-info">
+                    <span class="item-label">Usuario:</span>
+                    <span class="item-value">{{ usuario.usuario }}</span>
+                </div>
+                <a class="item-btn" href="{% url 'cambiar_usuario' %}">
+                    <i class="fa-solid fa-user-pen"></i> Cambiar usuario
+                </a>
+            </li>
+
+            <li class="config-item">
+                <div class="item-info">
+                    <span class="item-label">Correo:</span>
+                    <span class="item-value">{{ usuario.correo }}</span>
+                </div>
+                <a class="item-btn" href="{% url 'cambiar_correo' %}">
+                    <i class="fa-solid fa-envelope"></i> Cambiar correo
+                </a>
+            </li>
+
+            <li class="config-item">
+                <div class="item-info">
+                    <span class="item-label">Teléfono:</span>
+                    <span class="item-value">{{ usuario.telefono }}</span>
+                </div>
+                <a class="item-btn" href="{% url 'cambiar_telefono' %}">
+                    <i class="fa-solid fa-phone"></i> Cambiar teléfono
+                </a>
+            </li>
+
+            <li class="config-item config-item-last">
+                <a class="item-btn full" href="{% url 'cambiar_contraseña' %}">
+                    <i class="fa-solid fa-key"></i> Cambiar contraseña
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
 </div>
+
 {% endblock %}

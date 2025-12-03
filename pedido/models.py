@@ -65,3 +65,13 @@ class MovimientoPago(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.cliente.nombre} - {self.monto}"
+    
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(Pedido, related_name="items", on_delete=models.CASCADE)
+    producto = models.ForeignKey(Productos, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    valor_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    @property
+    def total(self):
+        return self.cantidad * self.valor_unitario

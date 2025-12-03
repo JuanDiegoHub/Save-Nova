@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Pedido</title>
+</head>
+<body style="font-family: Arial, sans-serif;">
+
+    <h2>Gracias por tu pedido #{{ pedido.id_pedido }}</h2>
+
+    <p>Hola <strong>{{ pedido.cliente.nombre }}</strong>, aquí están los detalles de tu compra:</p>
+
+    <table border="1" cellpadding="6" cellspacing="0" 
+           style="border-collapse: collapse; width: 100%; text-align: left;">
+        <thead style="background-color: #f0f0f0;">
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Valor unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in detalles %}
+            <tr>
+                <td>{{ d.nombre_producto }}</td>
+                <td>{{ d.cantidad }}</td>
+                <td>${{ d.precio }}</td>
+                <td>${{ d.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Total del pedido: <strong>${{ pedido.total }}</strong></h3>
+
+    <p>¡Gracias por preferirnos!<br>
+    Equipo de <strong>NOVA</strong></p>
+
+</body>
+</html>

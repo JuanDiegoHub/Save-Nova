@@ -1,5 +1,4 @@
 # pedido/views.py
-
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,16 +6,19 @@ import json
 from decimal import Decimal
 from CreacionUsu.models import Cliente
 from .models import Pedido, DetallePedido, MovimientoPago
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
-
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.apps import AppConfig
 
 def crear_pedido(request):
     clientes = Cliente.objects.all().order_by("nombre")  
-
     return render(request, "pedido/crear_pedido.html", {
         "clientes": clientes
     })
+
 
 @csrf_exempt
 def guardar_pedido(request):
@@ -36,7 +38,7 @@ def guardar_pedido(request):
 
         cliente = Cliente.objects.get(id_cliente=cliente_id)
 
-        # Calcular total correctamente
+        # Calcular total
         total_pedido = sum(
             Decimal(str(p["cantidad"])) * Decimal(str(p["precio"]))
             for p in productos
@@ -47,7 +49,7 @@ def guardar_pedido(request):
             total=total_pedido
         )
 
-        # Guardar detalles del pedido
+        # Guardar detalles
         for p in productos:
             precio_decimal = Decimal(str(p["precio"]))
             subtotal_decimal = Decimal(str(p["cantidad"])) * precio_decimal
@@ -60,10 +62,31 @@ def guardar_pedido(request):
                 subtotal=subtotal_decimal
             )
 
+        # ------------------------------
+        # 🔥 ENVIAR CORREO AQUÍ 🔥
+        # ------------------------------
+        detalles = DetallePedido.objects.filter(pedido=pedido)
+
+        html_content = render_to_string("pedido/pedido_detalle.html", {
+            "pedido": pedido,
+            "detalles": detalles
+        })
+
+        email = EmailMultiAlternatives(
+            subject=f"Confirmación de Pedido #{pedido.id_pedido}",
+            body="Tu cliente no ve este texto si usa HTML.",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[cliente.correo],
+        )
+        email.attach_alternative(html_content, "text/html")
+        email.send()
+        # ------------------------------
+
         return JsonResponse({"success": True, "pedido_id": pedido.id_pedido})
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
     
 
 def abonar_pedido(request, id_pedido):
@@ -104,3 +127,10 @@ def pagar_pedido(request, id_pedido):
 
     return redirect("menu")
 
+
+class PedidoConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'pedido'
+
+    def ready(self):
+        import pedido.signals

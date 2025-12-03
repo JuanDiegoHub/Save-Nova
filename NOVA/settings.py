@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'menu',
     'CreacionUsu',
     'config',
-    'pedido',
     'reporte',
+    'pedido.apps.PedidoConfig',
 ]
 AUTHENTICATION_BACKENDS = [
     'usuarios.backends.UsuarioBackend',
@@ -134,3 +134,14 @@ LOGIN_REDIRECT_URL = 'menu'  # url por defecto tras login (opcional)
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = "novafinanzas26@gmail.com"   # <-- Pon aquí tu correo
+EMAIL_HOST_PASSWORD = "vrflizuwuscesita"  # <-- Tu contraseña de aplicación
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

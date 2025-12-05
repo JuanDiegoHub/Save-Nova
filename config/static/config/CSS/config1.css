@@ -1,0 +1,97 @@
+/* Contenedor principal */
+.card {
+    max-width: 550px;
+    margin: 40px auto;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    background: #ffffff;
+    overflow: hidden;
+}
+
+/* Encabezado */
+.card-header {
+    background: #0a2a4a;
+    color: #fff;
+    padding: 18px 25px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Contenido */
+.card-body {
+    padding: 25px 30px;
+}
+
+/* Labels */
+.card-body label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #0a2a4a;
+}
+
+/* Inputs */
+.card-body input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 15px;
+}
+
+.card-body input:focus {
+    outline: none;
+    border-color: #0a2a4a;
+    box-shadow: 0 0 4px rgba(10,42,74,0.35);
+}
+
+/* Botón */
+.btn {
+    margin-top: 22px;
+    width: 100%;
+    background: #0a2a4a;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn:hover {
+    background: #0c355d;
+}
+
+/* Mensaje de error */
+.error {
+    background: #ffdddd;
+    padding: 10px 12px;
+    border-left: 4px solid #c70000;
+    border-radius: 6px;
+    color: #9b0000;
+    margin-bottom: 15px;
+}
+
+/* Link para volver */
+.link-volver {
+    display: block;
+    margin-top: 25px;
+    text-align: center;
+    color: #0a2a4a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-volver:hover {
+    text-decoration: underline;
+}

@@ -80,6 +80,9 @@ def guardar_pedido(request):
         )
         email.attach_alternative(html_content, "text/html")
         email.send()
+
+
+        
         # ------------------------------
 
         return JsonResponse({"success": True, "pedido_id": pedido.id_pedido})

@@ -1,27 +1,121 @@
 {% extends 'menu/menu.html' %}
 {% load static %}
+
 {% block content %}
 
-<h1>Informe de Pedidos</h1>
-
-<!-- ============================
-     BLOQUE NUEVO: RANGO DE FECHAS
-============================= -->
 <link rel="stylesheet" href="{% static 'reporte/CSS/reporte.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<h1 class="titulo-reporte">Informe de Movimientos</h1>
+
+<!-- ================= FILTRO DE FECHAS ================ -->
 <div class="rango-fechas-container">
-    <h2>Generar los informes por rango de fechas</h2>
+    <h2>Filtrar Pedidos</h2>
 
-    <form method="get" action="{% url 'generar_reporte_pdf' %}">
-        <label for="fecha_inicio">Desde:</label>
-        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+    <form method="get" action="{% url 'reporte_rango_fechas' %}">
+        <label>Desde:</label>
+        <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" required>
 
-        <label for="fecha_fin">Hasta:</label>
-        <input type="date" id="fecha_fin" name="fecha_fin" required>
+        <label>Hasta:</label>
+        <input type="date" name="fecha_fin" value="{{ fecha_fin }}" required>
 
-        <button type="submit">Generar PDF</button>
-    </form> 
+        <label>Cliente:</label>
+        <select name="cliente_id" required>
+            <option value="">-- Seleccione cliente --</option>
 
+            <option value="0" {% if cliente_id == "0" %}selected{% endif %}>
+                Todos los clientes
+            </option>
+
+            {% for c in clientes %}
+                <option value="{{ c.id_cliente }}" {% if cliente_id == c.id_cliente|stringformat:"s" %}selected{% endif %}>
+                    {{ c.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn-nova">
+            <i class="fa-solid fa-magnifying-glass"></i> Buscar
+        </button>
+    </form>
 </div>
 
-{% endblock %}
+<!-- ================= EXPORTAR EXCEL ================ -->
+{% if movimientos %}
+<div style="margin-top:20px;">
+    <a href="{% url 'exportar_excel_pedidos' %}?fecha_inicio={{ fecha_inicio }}&fecha_fin={{ fecha_fin }}&cliente_id={{ cliente_id }}"
+       class="btn-excel">
+        <i class="fa-solid fa-file-excel"></i> Descargar Excel
+    </a>
+</div>
+{% endif %}
 
+<!-- ================= TABLA PRINCIPAL ================ -->
+{% if movimientos %}
+<h2>Movimientos Encontrados</h2>
+
+<table class="tabla-reporte">
+    <tr>
+        <th><i class="fa-solid fa-user"></i> Cliente</th>
+        <th><i class="fa-solid fa-calendar"></i> Fecha Movimiento</th>
+        <th><i class="fa-solid fa-coins"></i> Abono</th>
+        <th><i class="fa-solid fa-wallet"></i> Saldo Restante</th>
+        <th><i class="fa-solid fa-flag"></i> Estado</th>
+    </tr>
+
+    {% for m in movimientos %}
+    <tr>
+        <td>{{ m.cliente }}</td>
+        <td>{{ m.fecha|date:"Y-m-d H:i" }}</td>
+        <td>${{ m.abono }}</td>
+        <td>${{ m.saldo }}</td>
+
+        <td>
+            {% if m.estado == "Pagado" %}
+                <span class="estado pagado">Pagado</span>
+            {% else %}
+                <span class="estado pendiente">Pendiente</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<!-- ================= HISTORIAL DE MOVIMIENTOS ================ -->
+{% if historial %}
+<h2>Historial de Movimientos del Pedido</h2>
+
+<table class="tabla-nova">
+    <tr>
+        <th>Cliente</th>
+        <th>Fecha Movimiento</th>
+        <th>Abono</th>
+        <th>Saldo Restante</th>
+        <th>Estado</th>
+    </tr>
+
+    {% for item in historial %}
+    <tr>
+        <td>{{ item.cliente }}</td>
+        <td>{{ item.fecha|date:"Y-m-d" }}</td>
+        <td>${{ item.abono|floatformat:0 }}</td>
+        <td>${{ item.saldo|floatformat:0 }}</td>
+        <td>
+            {% if item.estado == "Pagado" %}
+                <span class="estado-pagado">Pagado</span>
+            {% else %}
+                <span class="estado-pendiente">Pendiente</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<!-- ================= SIN RESULTADOS ================ -->
+{% if not movimientos and not historial %}
+<p>No hay movimientos en este filtro.</p>
+{% endif %}
+
+{% endblock %}

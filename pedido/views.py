@@ -137,3 +137,17 @@ class PedidoConfig(AppConfig):
 
     def ready(self):
         import pedido.signals
+
+
+def detalle_pedido(request, id_pedido):
+    pedido = get_object_or_404(Pedido, id_pedido=id_pedido)
+
+    detalles = DetallePedido.objects.filter(pedido=pedido)
+
+    total = sum(d.subtotal for d in detalles)
+
+    return render(request, "pedido/detalle_pedido.html", {
+        "pedido": pedido,
+        "detalles": detalles,
+        "total": total
+    })

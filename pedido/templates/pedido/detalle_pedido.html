@@ -1,0 +1,44 @@
+{% extends 'menu/menu.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle Pedido</title>
+</head>
+<body>
+
+<h1>Pedido de {{ pedido.cliente.nombre }}</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Valor Unitario</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for d in detalles %}
+        <tr>
+            <td>{{ d.nombre_producto }}</td>
+            <td>{{ d.cantidad }}</td>
+            <td>${{ d.precio }}</td>
+            <td>${{ d.subtotal }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="3"><strong>Total Pedido</strong></td>
+            <td><strong>${{ total }}</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+</body>
+</html>
+{% endblock %}

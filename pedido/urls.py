@@ -6,4 +6,5 @@ urlpatterns = [
     path("guardar/", views.guardar_pedido, name="guardar_pedido"),
     path('abonar/<int:id_pedido>/', views.abonar_pedido, name='abonar_pedido'),
     path('pagar/<int:id_pedido>/', views.pagar_pedido, name='pagar_pedido'),
+    path('detalle/<int:id_pedido>/', views.detalle_pedido, name='detalle_pedido'),
 ]

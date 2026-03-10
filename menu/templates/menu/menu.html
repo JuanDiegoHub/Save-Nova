@@ -68,7 +68,19 @@
                     <div class="pedido-card" id="pedido-{{ pedido.id_pedido }}">
                         <h2 class="pedido-cliente">{{ pedido.cliente.nombre }}</h2>
                         <p class="pedido-total">Total: ${{ pedido.total }}</p>
+                        <div class="productos-lista">
+                            <ul>
+                                {% for producto in pedido.productos|slice:":3" %}
+                                    <li>{{ producto.nombre_producto }}</li>
+                                {% endfor %}
+                            </ul>
 
+                            {% if pedido.productos|length > 3 %}
+                                <a href="{% url 'detalle_pedido' pedido.id_pedido %}" class="ver-mas">
+                                    ... más
+                                </a>
+                            {% endif %}
+                        </div>
                         <button class="btn-abonar" onclick="mostrarAbono({{ pedido.id_pedido }})">
                             <i class="fa-solid fa-coins"></i> Abonar
                         </button>

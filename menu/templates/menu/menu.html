@@ -76,8 +76,8 @@
                             </ul>
 
                             {% if pedido.productos|length > 3 %}
-                                <a href="{% url 'detalle_pedido' pedido.id_pedido %}" class="ver-mas">
-                                    ... más
+                                <a href="{% url 'detalle_pedido' pedido.id_pedido %}" class="btn-ver-mas">
+                                    Ver más <i class="fa-solid fa-arrow-right"></i>
                                 </a>
                             {% endif %}
                         </div>

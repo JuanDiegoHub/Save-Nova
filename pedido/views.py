@@ -151,3 +151,47 @@ def detalle_pedido(request, id_pedido):
         "detalles": detalles,
         "total": total
     })
+from django.views.decorators.http import require_POST
+
+@require_POST
+def editar_producto(request, id_detalle):
+    detalle = get_object_or_404(DetallePedido, id=id_detalle)
+
+    nombre = request.POST.get("nombre")
+    cantidad = int(request.POST.get("cantidad"))
+    precio = Decimal(request.POST.get("precio"))
+
+    detalle.nombre_producto = nombre
+    detalle.cantidad = cantidad
+    detalle.precio = precio
+    detalle.subtotal = cantidad * precio
+    detalle.save()
+
+    # recalcular total del pedido
+    pedido = detalle.pedido
+    total = sum(d.subtotal for d in pedido.detalles.all())
+    pedido.total = total
+    pedido.save()
+
+    return JsonResponse({
+        "success": True,
+        "subtotal": detalle.subtotal,
+        "total_pedido": pedido.total
+    })
+
+
+@require_POST
+def eliminar_producto(request, id_detalle):
+    detalle = get_object_or_404(DetallePedido, id=id_detalle)
+    pedido = detalle.pedido
+
+    detalle.delete()
+
+    total = sum(d.subtotal for d in pedido.detalles.all())
+    pedido.total = total
+    pedido.save()
+
+    return JsonResponse({
+        "success": True,
+        "total_pedido": pedido.total
+    })

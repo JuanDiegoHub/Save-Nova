@@ -25,7 +25,7 @@ class Pedido(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     estado= models.CharField(
         max_length=20,
-        choices=[("Pendiente", "Pendiente"), ("Pagado", "Pagado")],
+        choices=[("Pendiente", "Pendiente"), ("Pagado", "Pagado"), ("Cancelado", "Cancelado")],
         default="Pendiente"
     )
     def actualizar_estado(self):

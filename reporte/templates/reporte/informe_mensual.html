@@ -48,38 +48,72 @@
         <i class="fa-solid fa-file-excel"></i> Descargar Excel
     </a>
 </div>
+
 {% endif %}
 
 <!-- ================= TABLA PRINCIPAL ================ -->
-{% if movimientos %}
-<h2>Movimientos Encontrados</h2>
+{% if reporte %}
+<h2>Pedidos Encontrados</h2>
 
 <table class="tabla-reporte">
-    <tr>
-        <th><i class="fa-solid fa-user"></i> Cliente</th>
-        <th><i class="fa-solid fa-calendar"></i> Fecha Movimiento</th>
-        <th><i class="fa-solid fa-coins"></i> Abono</th>
-        <th><i class="fa-solid fa-wallet"></i> Saldo Restante</th>
-        <th><i class="fa-solid fa-flag"></i> Estado</th>
-    </tr>
 
-    {% for m in movimientos %}
-    <tr>
-        <td>{{ m.cliente }}</td>
-        <td>{{ m.fecha|date:"Y-m-d H:i" }}</td>
-        <td>${{ m.abono }}</td>
-        <td>${{ m.saldo }}</td>
+<tr>
+    <th>Cliente</th>
+    <th>Fecha Pedido</th>
+    <th>Total</th>
+    <th>Abonado</th>
+    <th>Saldo</th>
+    <th>Estado</th>
+</tr>
 
-        <td>
-            {% if m.estado == "Pagado" %}
-                <span class="estado pagado">Pagado</span>
-            {% else %}
-                <span class="estado pendiente">Pendiente</span>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
+{% for r in reporte %}
+
+<tr>
+
+<td>{{ r.cliente }}</td>
+
+<td>{{ r.fecha|date:"Y-m-d H:i" }}</td>
+
+<td>${{ r.total }}</td>
+
+<td>${{ r.abonado }}</td>
+
+<td>
+
+{% if r.estado == "Pagado" %}
+$0
+
+{% elif r.estado == "Cancelado" %}
+<s>${{ r.total }}</s>
+
+{% else %}
+${{ r.saldo }}
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if r.estado == "Pagado" %}
+<span class="estado pagado">Pagado</span>
+
+{% elif r.estado == "Pendiente" %}
+<span class="estado pendiente">Pendiente</span>
+
+{% elif r.estado == "Cancelado" %}
+<span class="estado cancelado">Cancelado</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
 </table>
+
 {% endif %}
 
 <!-- ================= HISTORIAL DE MOVIMIENTOS ================ -->

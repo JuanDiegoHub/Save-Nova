@@ -195,3 +195,55 @@ def eliminar_producto(request, id_detalle):
         "success": True,
         "total_pedido": pedido.total
     })
+from django.views.decorators.http import require_POST
+import json
+from decimal import Decimal
+
+@require_POST
+def agregar_productos(request, id_pedido):
+
+    pedido = get_object_or_404(Pedido, id_pedido=id_pedido)
+
+    data = json.loads(request.body)
+    productos = data.get("productos", [])
+
+    for p in productos:
+
+        nombre = p.get("nombre")
+        cantidad = int(p.get("cantidad", 0))
+        precio = Decimal(str(p.get("precio", 0)))
+
+        if nombre and precio > 0:
+
+            subtotal = cantidad * precio
+
+            DetallePedido.objects.create(
+                pedido=pedido,
+                nombre_producto=nombre,
+                cantidad=cantidad,
+                precio=precio,
+                subtotal=subtotal
+            )
+
+    # recalcular total del pedido
+    total = sum(d.subtotal for d in pedido.detalles.all())
+    pedido.total = total
+    pedido.save()
+
+    return JsonResponse({
+        "success": True
+    })
+
+from django.http import JsonResponse
+from .models import Pedido
+
+def cancelar_pedido(request, id_pedido):
+
+    if request.method == "POST":
+
+        pedido = Pedido.objects.get(id_pedido=id_pedido)
+
+        pedido.estado = "Cancelado"
+        pedido.save()
+
+        return JsonResponse({"success": True})

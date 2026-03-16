@@ -75,7 +75,7 @@
                                 {% endfor %}
                             </ul>
 
-                            {% if pedido.productos|length >= 1 %}
+                            {% if pedido.productos|length >= 0 %}
                                 <a href="{% url 'detalle_pedido' pedido.id_pedido %}" class="btn-ver-mas">
                                     Ver más <i class="fa-solid fa-arrow-right"></i>
                                 </a>
@@ -110,5 +110,6 @@
 <script src="{% static 'menu/JS/busqueda.js' %}"></script>
 <script src="{% static 'menu/JS/menu.js' %}"></script>
 <script src="{% static 'menu/JS/pedidos.js' %}"></script>
+
 </body>
 </html>

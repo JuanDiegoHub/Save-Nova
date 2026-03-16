@@ -49,55 +49,10 @@ def generar_reporte_pdf(request):
 
 
 def reporte_rango_fechas(request):
+
     fecha_inicio = request.GET.get("fecha_inicio")
     fecha_fin = request.GET.get("fecha_fin")
-    cliente_id = request.GET.get("cliente_id", "")
-
-    pedidos = Pedido.objects.all()
-
-    # FILTRAR FECHAS
-    if fecha_inicio and fecha_fin:
-        pedidos = pedidos.filter(
-            fecha_pedido__date__gte=fecha_inicio,
-            fecha_pedido__date__lte=fecha_fin
-        )
-
-    # FILTRAR POR CLIENTE
-    if cliente_id and cliente_id != "0":
-        pedidos = pedidos.filter(cliente_id=cliente_id)
-
-    clientes = Cliente.objects.all()
-
-    movimientos_list = []
-
-    for pedido in pedidos:
-        movimientos = MovimientoPago.objects.filter(pedido=pedido).order_by("fecha")
-
-        acumulado = 0
-        for m in movimientos:
-            acumulado += m.monto
-            saldo_restante = pedido.total - acumulado
-
-            movimientos_list.append({
-                "cliente": pedido.cliente.nombre,
-                "fecha": m.fecha,
-                "abono": m.monto,
-                "saldo": saldo_restante,
-                "estado": "Pagado" if saldo_restante <= 0 else "Pendiente"
-            })
-
-    return render(request, "reporte/informe_mensual.html", {
-        "fecha_inicio": fecha_inicio,
-        "fecha_fin": fecha_fin,
-        "cliente_id": cliente_id,
-        "clientes": clientes,
-        "movimientos": movimientos_list,
-    })
-
-
-def exportar_excel_pedidos(request):
-    fecha_inicio = request.GET.get("fecha_inicio")
-    fecha_fin = request.GET.get("fecha_fin")
+    cliente_id = request.GET.get("cliente_id")
 
     pedidos = Pedido.objects.all()
 
@@ -106,43 +61,88 @@ def exportar_excel_pedidos(request):
             fecha_pedido__date__range=[fecha_inicio, fecha_fin]
         )
 
-    # Construimos el DataFrame
-    data = []
+    if cliente_id and cliente_id != "0":
+        pedidos = pedidos.filter(cliente_id=cliente_id)
+
+    clientes = Cliente.objects.all()
+
+    reporte = []
+    
+
     for p in pedidos:
+
+        abonado = p.movimientos.aggregate(total=Sum("monto"))["total"] or 0
+        saldo = p.total - abonado
+
+        if p.estado == "Pagado":
+            saldo = 0
+
+        reporte.append({
+            "cliente": p.cliente.nombre,
+            "fecha": p.fecha_pedido,
+            "total": p.total,
+            "abonado": abonado,
+            "saldo": saldo,
+            "estado": p.estado
+        })
+
+    return render(request,"reporte/informe_mensual.html",{
+        "reporte":reporte,
+        "clientes":clientes,
+        "fecha_inicio":fecha_inicio,
+        "fecha_fin":fecha_fin,
+        "cliente_id":cliente_id
+    })
+
+
+def exportar_excel_pedidos(request):
+
+    fecha_inicio = request.GET.get("fecha_inicio")
+    fecha_fin = request.GET.get("fecha_fin")
+    cliente_id = request.GET.get("cliente_id")
+
+    pedidos = Pedido.objects.all()
+
+    if fecha_inicio and fecha_fin:
+        pedidos = pedidos.filter(
+            fecha_pedido__date__range=[fecha_inicio, fecha_fin]
+        )
+
+    if cliente_id and cliente_id != "0":
+        pedidos = pedidos.filter(cliente_id=cliente_id)
+
+    data = []
+
+    for p in pedidos:
+
+        abonado = p.movimientos.aggregate(total=Sum("monto"))["total"] or 0
+        saldo = p.total - abonado
+
+        if p.estado == "Pagado":
+            saldo = 0
+
+        if p.estado == "Cancelado":
+            saldo = f"Cancelado ({p.total})"
+
         data.append({
-            "ID Pedido": p.id_pedido,
             "Cliente": p.cliente.nombre,
-            "Fecha del pedido": p.fecha_pedido.strftime("%Y-%m-%d %H:%M:%S"),
-            "Total": float(p.total),
-            "Estado": p.estado,
+            "Fecha": p.fecha_pedido.strftime("%Y-%m-%d %H:%M"),
+            "Total Pedido": float(p.total),
+            "Abonado": float(abonado),
+            "Saldo": saldo,
+            "Estado": p.estado
         })
 
     df = pd.DataFrame(data)
 
-    # Configuración de la respuesta
     response = HttpResponse(
         content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-    nombre_archivo = f"Reporte_{fecha_inicio}_a_{fecha_fin}.xlsx"
-    response["Content-Disposition"] = f'attachment; filename="{nombre_archivo}"'
+    response["Content-Disposition"] = 'attachment; filename="reporte_pedidos.xlsx"'
 
-    # Crear archivo Excel con XlsxWriter
     with pd.ExcelWriter(response, engine="xlsxwriter") as writer:
         df.to_excel(writer, sheet_name="Pedidos", index=False)
-
-        workbook = writer.book
-        worksheet = writer.sheets["Pedidos"]
-
-        # Formato del encabezado
-        formato_header = workbook.add_format({
-            "bold": True,
-            "bg_color": "#DDEBF7",
-            "border": 1
-        })
-        worksheet.set_row(0, None, formato_header)
-
-        worksheet.autofilter(0, 0, len(df), len(df.columns) - 1)
 
     return response
 
